@@ -1,0 +1,724 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<style type="text/css">
+		body{
+		font-size:80%;
+		}
+	</style>
+</head>
+
+<body>
+<form>
+<select id="select_choice" onChange="javascript:common_fnMove();">
+	<option value="div_date"			>날짜	</option>
+	<option value="div_char"			>문자	</option>
+	<option value="div_number"		>숫자	</option>
+	<option value="div_html"			>HTML	</option>
+	<option value="div_popup"		>팝업	</option>
+	<option value="div_etc "			>기타	</option>
+	<option value="div_standby"		>대기중	</option>
+</select>
+
+<div id="div_date"><br>-- 날짜 ----------------------------------------------------------------<input type="button" value="TOP" onClick="javascript:common_topMove();"><br>
+<a href="javascript:common_alert(	common_chkDateFormat('2017-09-08')		);">common_chkDateFormat('2017-09-08')</a> : string 문자열의 날짜형식 유효성 검증결과를 반환한다.<br>
+<a href="javascript:common_alert(	common_calDateRange('2017-08-03','2017-08-05')		);">common_calDateRange('2017-08-03','2017-08-05')</a> : 두 날짜의 차이를 일자로 구한다.<br>
+<a href="javascript:common_alert(	common_setDate('20170908','.')			);">common_setDate('20170908','.')</a> : string 문자열을 날짜 Format 으로 변경하여 반환한다.<br>
+날짜관련 :<input type="text" id="startDate" name="startDate" />~<input type="text" id="endDate" name="endDate" />
+	<input type="button" value="오늘" onclick="DateUtil.setDate('startDate', 'endDate', {})" />
+	<input type="button" value="7일" onclick="DateUtil.setDate('startDate', 'endDate', {day: -7})" />
+	<input type="button" value="1달" onclick="DateUtil.setDate('startDate', 'endDate', {month: -1})" />
+	<input type="button" value="1년" onclick="DateUtil.setDate('startDate', 'endDate', {year: -1})" /><br>
+
+<br><br></div>
+<div id="div_char"><br>-- 문자 ----------------------------------------------------------------<input type="button" value="TOP" onClick="javascript:common_topMove();"><br>
+<a href="javascript:common_alert(	common_isEng('abc')		);">common_isEng('abc')</a> : string 문자열의 영문자형식 검증결과를 반환한다.<br>
+<a href="javascript:common_alert(	common_isEngNum('abc')		);">common_isEngNum('abc')</a> : string 문자열의 영문자/숫자형식 검증결과를 반환한다.<br>
+<a href="javascript:common_alert(	common_isHangul('한글')		);">common_isHangul('한글')</a> : string 문자열의 한글형식 검증결과를 반환한다.<br>
+<a href="javascript:common_alert(	common_trim(' abc ')					);">common_trim(' abc ')</a> : string 문자열의 좌우공백 제거하여 반환한다.<br>
+<a href="javascript:common_alert(	common_ltrim(' abc ')					);">common_ltrim(' abc ')</a> : string 문자열의 왼쪽 공백 제거하여 반환한다.<br>
+<a href="javascript:common_alert(	common_rtrim(' abc ')					);">common_rtrim(' abc ')</a> : string 문자열의 오른쪽 공백 제거하여 반환한다.<br>
+<a href="javascript:common_alert(	common_replaceAll('i am your father','father','mother')				);">common_replaceAll('i am your father','father','mother')</a>	 : string 문자열(I'm your father)안의 string1을 string2로 치환하여 반환한다..<br>
+<a href="javascript:common_alert(	common_byte('한abc')					);">common_byte('한abc')</a> : string 문자열의 byte 단위의 길이를 반환<br>
+<a href="javascript:common_alert(	common_isEmail('jiwon@naver.com')		);">common_isEmail('jiwon@naver.com')</a> : string 문자열의 이메일형식 유효성 검증결과를 반환한다.<br>
+<textarea id = "textarea" rows="2" cols="10" onkeyup = "common_maxLength(this,5,6)"></textarea> common_maxLength(this,5,6)  : 입력공간의 문자열 제한을 두어 알아서 삭제한다.<br>
+<textarea id = "textarea" rows="1" cols="10" onkeyup = "common_cutTxt(this,5,6)"></textarea> common_cutTxt(this,5,6) : 지정된 자릿수만큼의 String값을 남겨두고, 삭제한다.<br>
+<a href="javascript:common_alert(	common_strRpad('abc','4','plus')		);">common_strRpad('abc','4','plus')</a> : 오른쪽에 ch 문자로 채우기<br>
+<a href="javascript:common_alert(	common_strLpad('abc','4','plus')		);">common_strLpad('abc','4','plus')</a> : 왼쪽에 ch 문자로 채우기<br>
+<a href="javascript:common_alert(	common_chkNull('')			);">common_chkNull('abc')</a> : string 문자열의 Null 여부를 판단하여 반환한다.(지정 오브젝트 내용존재여부 판단).<br>
+<a href="javascript:common_alert(	common_jsonParse()		);">common_jsonParse('{"name":"John", "birth":"1986-12-14", "city":"New York"}').city</a> : string 문자열을 JSON Object 객체로 변환하여 반환한다.<br>
+
+
+<br><br></div>
+<div id="div_number"><br>-- 숫자 ----------------------------------------------------------------<input type="button" value="TOP" onClick="javascript:common_topMove();"><br>
+<a href="javascript:common_alert(	common_comma('1234567890')		);">common_comma('1234567890') : string 문자열을 세자리단위로 (,)를 삽입하여 반환한다.</a><br>
+<a href="javascript:common_alert(	common_isNum('111')		);">common_isNum('111') : string 문자열의 숫자형식 검증결과를 반환한다.</a><br>
+<a href="javascript:common_alert(	common_isMobile('01010060414')			);">common_isMobile('01010060414') : string 문자열의 휴대폰번호형식 유효성 검증결과를 반환한다.</a><br>
+<a href="javascript:common_alert(	common_number('1a2b3c')			);">common_number('1a2b3c') : string 문자열중 숫자타입의 character 만을 반환한다.</a><br>
+
+<br><br></div>
+<div id="div_html"><br>-- HTML --------------------------------------------------------------<input type="button" value="TOP" onClick="javascript:common_topMove();"><br>
+<a href="javascript:common_alert(	common_getCheckedVal('chk')		);">common_getCheckedVal('chk') : 체크된 항목 가져오기</a><br>
+<a href="javascript:common_setCheckedVal('chk','02');">common_setCheckedVal('chk','02') : 항목 체크 하기</a><br>
+<a href="javascript:common_setCheckedAll('chk');">common_setCheckedAll('chk') : 전체 선택/해지 하기</a><br>
+<input type="checkbox"	id="chk"	name="chk"	value="01">01<input type="checkbox"	id="chk"	name="chk"	value="02">02
+<br>
+
+<a href="javascript:common_alert(	common_getRadioVal('abc')		);">common_getRadioVal('abc') : 라디오값 가져오기</a><br>
+<a href="javascript:common_setRadioVal('abc','02');">common_setRadioVal('abc','02') : 라디오값 셋팅</a><br>
+<input type="radio"	id="abc"	name="abc"	value="01">01<input type="radio"	id="abc"	name="abc"	value="02">02
+<br>
+
+<a href="javascript:common_alert(	common_getSelectVal('selecta')		);">common_getSelectVal('selecta') : select값 가져오기</a><br>
+<a href="javascript:common_setSelectVal('selecta','02');">common_getSelectVal('selecta','02') : select값 셋팅</a><br>
+<select id="selecta" name="selecta"><option value="01">01</option><option value="02">02</option></select>
+<br>
+
+
+<div id="Div1id" name = "Divname"  value = "valuetest" style="background-color: #ffeb00;">Div #1내용</div>
+<a href="javascript:common_alert(	common_getObjectId('Div1id').innerHTML	);">common_getObjectId('Div1id').innerHTML : string 문자열이 ID로 지정된 Element 객체를 반환한다.</a><br>
+<a href="javascript:common_alert(	common_getObjectName('Divname').length		);">common_getObjectName('Divname').length : string 문자열이 NAME으로 지정된 Element 객체를 반환한다.</a><br>
+
+
+
+<br><br></div>
+<div id="div_popup"><br>-- 팝업 ----------------------------------------------------------------<input type="button" value="TOP" onClick="javascript:common_topMove();"><br>
+<a href="javascript:common_popup('http://www.naver.com','open2','width=800,height=500');">common_popup('http://www.naver.com','open2','width=800,height=500')</a><br>
+<a href="javascript:common_popup2('http://www.naver.com','open1','100','500','300','100',1);">common_popup2('http://www.naver.com','open1','100','500','300','100',1) : 윈도우 오픈1 (사용자 지정 위치생성) </a><br>
+<a href="javascript:common_popup3('http://www.naver.com','open2','300','100',1);">common_popup3('http://www.naver.com','open2','300','100',1) : 윈도우 오픈2 (무조건 가운데 생성) </a><br>
+
+
+<br><br></div>
+<div id="div_etc"><br>-- 기타 ----------------------------------------------------------------<input type="button" value="TOP" onClick="javascript:common_topMove();"><br>
+<a href="javascript:common_alert('메세지');">common_alert(msg) : 메세지출력</a><br>
+<a href="javascript:common_alert(	common_getVer() 						);">common_getVer() : 현재 버전</a><br>
+<a href="javascript:common_alert(	common_getFileSize(102450)		);">common_getFileSize(102450) : 파일 사이즈 계산</a><br>
+<a href="javascript:common_alert(	getTime(36000)		);">getTime(36000) : 재생시간 계산</a><br>
+<a href="javascript:common_alert(	common_confirm('진행하시겠습니까?')		);">common_confirm('진행하시겠습니까?') : confirm</a><br>
+
+
+
+
+<br><br></div>
+<div id="div_standby"><br>-- 추후 ----------------------------------------------------------------<input type="button" value="TOP" onClick="javascript:common_topMove();"><br>
+
+<br><br></div>
+
+
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</form>
+</body>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script language="javascript">
+function common_fnMove(){ 
+	seq = $("#select_choice").val();
+	var offset = $("#" + seq).offset(); 
+	$('html, body').animate({scrollTop : offset.top}, 400); 
+}
+function common_topMove(){ 
+	var offset = $("#select_choice").offset(); 
+	$('html, body').animate({scrollTop : offset.top}, 400); 
+}
+
+
+//-- common.js로 추출해야 할 항목 ----------------------------------------------------------------------------------
+
+/**
+ * 로그모드
+ */
+var common_logMode	= "DEBUG";
+/**
+ * common의 현재버전
+ */
+var common_ver		= "1.0.1";
+
+
+/**
+ * 메세지 출력 : 로그모드에 따라 메세지 출력
+ * @param msg 출력할 메세지
+ */
+function common_alert(msg){
+	if( common_logMode == "INFO"){
+		alert( common_logMode + "모드 \r\n" + "+" + msg + "+");
+		
+	}else if( common_logMode == "DEBUG"){
+		alert( common_logMode + "모드 \r\n" + "+" + msg + "+");
+	}
+}
+
+/**
+ * 현재 버전.
+ * @returns {String} 현재버전
+ */
+function common_getVer(){
+	return common_ver;
+}
+
+
+/**
+ * string 문자열의 좌우공백 제거하여 반환한다.
+ * @param stringToTrim
+ * @returns
+ */
+function common_trim(strToTrim){
+	return strToTrim.replace(/(^\s*)|(\s*$)/g, "");
+}
+
+
+/**string 문자열의 왼쪽 공백 제거하여 반환한다.
+ * @param strToLtrim
+ * @returns
+ */
+function common_ltrim(strToLtrim){
+	return strToLtrim.replace(/^\s+/,"");
+}
+
+
+/**string 문자열의 오른쪽 공백 제거하여 반환한다.
+ * @param strToRtrim
+ * @returns
+ */
+function common_rtrim(strToRtrim){
+	return strToRtrim.replace(/\s+$/,"");
+}
+
+/**
+* @description	string 문자열안의 string1을 string2로 치환하여 반환한다.
+*/
+String.prototype.replaceAll = function(as_rex, as_out) {
+	return this.replace(new RegExp(as_rex, "g"), as_out);
+}
+
+/**
+ * @description	string 문자열의 Null 여부를 판단하여 반환한다.
+ */
+String.prototype.isNull = function() {
+	return common_chkNull(this);
+};
+
+
+/**
+ * string 문자열의 Null 여부를 판단하여 반환한다.(지정 오브젝트 내용존재여부 판단)
+ * @param objValue
+ * @returns {Boolean}
+ */
+function common_chkNull( objValue){
+	var strObj = objValue;
+	if ( strObj == null || (typeof(strObj)== "string" && strObj == "" || strObj =="null") ){
+		return true;
+	}
+	return false;
+}
+
+/**string 문자열의 byte 단위의 길이를 반환
+ * @param str
+ * @returns {Number}
+ */
+function common_byte(str) {
+    var byte = 0;
+    for( var i=0; i<str.length; i++ ) {
+        ( str.charCodeAt(i) > 127 ) ? byte += 2 : byte++ ;
+    }
+    return byte;
+}
+
+/**string 문자열중 숫자타입의 character 만을 반환한다.
+ * @param str
+ * @returns
+ */
+function common_number(str) {
+    return str.trim().replace(/[^0-9]/g, "");
+}
+
+/**string 문자열을 세자리단위로 (,)를 삽입하여 반환한다.
+ * @param str
+ * @returns
+ */
+function common_comma(str) {
+    var number = str.trim();
+    while( (/(-?[0-9]+)([0-9]{3})/).test(number) ) {
+    	number = number.replace((/(-?[0-9]+)([0-9]{3})/), "$1,$2");
+    }
+    return number;
+}
+
+/**string 문자열을 날짜 Format 으로 변경하여 반환한다.
+ * @param str
+ * @returns {String}
+ */
+function common_setDate(str, separator) {
+	if( str.length != 8 ) return "error";
+	return str.substring(0, 4) + separator+str.substring(4, 6) + separator+str.substring(6, 8);
+}
+
+/**string 문자열이 ID로 지정된 Element 객체를 반환한다.
+ * @param str
+ * @returns
+ */
+function common_getObjectId(str) {
+	return document.getElementById( str );
+}
+
+/**string 문자열이 NAME으로 지정된 Element 객체를 반환한다.
+ * @param str
+ * @returns
+ */
+function common_getObjectName(str) {
+	return document.getElementsByName( str );
+}
+
+
+/**string 문자열을 JSON Object 객체로 변환하여 반환한다.
+ * @param str
+ * @returns
+ */
+function common_jsonParse() {
+	var data = '{"name":"John", "birth":"1988-12-14", "city":"New York"}';
+	return JSON.parse( data ).city;
+}
+
+/**string 문자열의 이메일형식 유효성 검증결과를 반환한다.
+ * @param str
+ * @returns
+ */
+function common_isEmail(str) {
+	  return (/\w+([-+.]\w+)*@\w+([-.]\w+)*\.[a-zA-Z]{2,4}$/).test(str.trim());
+	}
+
+/**string 문자열의 날짜형식 유효성 검증결과를 반환한다.
+ * @param str
+ * @returns
+ */
+function common_chkDateFormat(str) {
+	return (/^(19|20)\d{2}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[0-1])$/).test(str.replaceAll("-", "").trim());
+}
+
+/**string 문자열의 휴대폰번호형식 유효성 검증결과를 반환한다.
+ * @param str
+ * @returns
+ */
+function common_isMobile(str) {
+	str = str.split('-').join('');
+	var regPhone = /^((01[1|6|7|8|9])[1-9]+[0-9]{6,7})|(010[1-9][0-9]{7})$/;
+	return regPhone.test(str);
+}
+
+/**string 문자열의 숫자형식 검증결과를 반환한다.
+ * @param str
+ * @returns
+ */
+function common_isNum(str) {
+	//return (/^[0-9]+$/).test(this.remove(arguments[0])) ? true : false;
+	return (/^[0-9]+$/).test(str.trim());
+}
+
+/**string 문자열의 영문자형식 검증결과를 반환한다.
+ * @param str
+ * @returns
+ */
+function common_isEng(str) {
+	//return (/^[a-zA-Z]+$/).test(this.remove(arguments[0])) ? true : false;
+	return (/^[a-zA-Z]+$/).test(str.trim());
+}
+
+/**string 문자열의 영문자/숫자형식 검증결과를 반환한다.
+ * @param str
+ * @returns
+ */
+function common_isEngNum(str) {
+	//return (/^[0-9a-zA-Z]+$/).test(this.remove(arguments[0])) ? true : false;
+	return (/^[0-9a-zA-Z]+$/).test(str.trim());
+}
+
+/**
+ * string 문자열의 한글형식 검증결과를 반환한다.
+ * @param str
+ * @returns {Boolean}
+ */
+function common_isHangul(str)
+{
+  var sBit = '';
+
+  for(i=0;i<str.length;i++)
+  {
+    sBit = str.charAt(i);
+    if(escape( sBit ).length <= 4)
+    {
+      return false;
+    }
+  }
+  return true;
+}
+
+
+ function common_replaceAll(msg, str1, str2){
+ 	return msg.replaceAll(str1,str2);
+ }	
+/**
+ * 지정 객체값의 null 여부 확인
+ * @param objValue
+ * @returns {Boolean}
+ */
+function common_isData( objValue){
+	
+	var strObj = objValue;
+	if ( strObj == null || strObj == "null" || strObj.length == 0){
+		return false;
+	}
+	return true;
+}
+
+
+/**
+ * 입력공간의 문자열 제한을 두어 알아서 삭제한다.
+ * @param chkObj
+ * @param maxSize
+ * @param msgByte
+ */
+function common_maxLength(chkObj, maxSize, msgByte){
+	var tmpStr = new String(chkObj.value);
+	if(common_byte(tmpStr) > maxSize){
+		alert("입력값은" + msgByte + " 자 까지 입력가능합니다.");
+		
+	}
+}
+
+/**
+ * 지정된 자릿수만큼의 String값을 남겨두고, 삭제한다
+ * @param chkObj
+ * @param maxSize
+ * @param msgByte
+ */
+function common_cutTxt(chkObj, maxSize, msgByte){
+	
+	var tmpStr = new String(chkObj.value);
+	var tcnt = 0;
+	
+	for (i=0; i<tmpStr.length; i++){
+		onechar = tmpStr.charAt(i);
+	
+	if( escape(onechar).length > 4) tcnt+=2;
+	else tcnt ++;
+	
+	if( tcnt > eval(maxSize)){
+		tmpStr = tmpStr.substring(0, i);
+		break;
+		}
+	}
+	chkObj.value = tmpStr;
+	common_maxLength(chkObj, maxSize, msgByte);
+}
+
+
+/**
+ * 오른쪽에 ch 문자로 채우기
+ * @param newValue
+ * @param len
+ * @param ch
+ * @returns {String}
+ */
+function common_strRpad(newValue, len, ch) {
+	
+	var strlen = newValue.trim().length;
+	var ret = "";
+	var alen = len - strlen;
+	var astr = "";
+	
+	for ( var i=0; i<alen; ++i){
+		astr = astr + ch;
+	}
+	
+	ret = newValue.trim() + astr;
+	return ret;
+}
+
+/**
+ * 왼쪽에 ch 문자 채우기
+ * @param newvalue
+ * @param len
+ * @param ch
+ * @returns {String}
+ */
+function common_strLpad(newvalue, len, ch){
+	
+	var strlen = newvalue.trim().length;
+	var ret = "";
+	var alen = len - strlen;
+	var astr = "";
+	
+	for ( var i=0; i<alen; ++i){
+		astr = ch + astr
+	}
+	ret = astr + newvalue.trim();
+	return ret;
+}
+
+
+/**
+ * 두 날짜의 차이를 일자로 구한다.
+ * @param val1 - 조회 시작일(ex.2017-08-03)
+ * @param val2 - 조회 종료일(ex.2017-08-03)
+ * @returns
+ */
+
+function common_calDateRange(val1,val2){
+	var FORMAT = "-";
+	
+	if(val1.length !=10 || val2.length !=10)
+		return null;
+	
+	if(val1.indexOf(FORMAT) < 0 || val2.indexOf(FORMAT) < 0 )
+		return null;
+	
+	var start_dt = val1.split(FORMAT);
+	var end_dt = val2.split(FORMAT);
+	
+	start_dt[1] = (Number(start_dt[1] - 1) + "");
+	end_dt[1] = (Number(end_dt[1] - 1) + "");
+	
+	var from_dt = new Date(start_dt[0], start_dt[1], start_dt[2]);
+	var to_dt = new Date(end_dt[0], end_dt[1], end_dt[2]);
+	
+	return  (to_dt.getTime() - from_dt.getTime()) / 1000 / 60 / 60 / 24;
+	
+}
+
+
+/**
+ * @id					DateUtil
+ * @type				function
+ * @access				public
+ * @parameter		String
+ * @description		날짜관련 함수 모음
+ * <pre>
+ *  1. var DateUtil = new DateUtil(); // Object생성
+ *  2. DateUtil.setDate( "tf_start_dt", "tf_end_dt", {} ) // 금일일자
+ *  3. DateUtil.setDate( "startDate", "endDate", {} ) // 금일일자  
+ *  3. DateUtil.setDate( "startDate", "endDate", { day : -7 } ) // 7일전   
+ *  3. DateUtil.setDate( "startDate", "endDate", { month : -1 } ) // 1개월전
+ *  3. DateUtil.setDate( "startDate", "endDate", { year : -1 } ) // 1년전  
+ * </pre>
+ */
+var DateUtil = function() {
+    this.startObject = null;
+    this.endObject = null;
+    this.args = null;
+};
+
+DateUtil.prototype.formatLen = function(str) {
+    return str = (""+str).length<2 ? "0"+str : str;
+};
+
+DateUtil.prototype.formatDate = function(dateObject, delimiter) {
+    delimiter = delimiter || "-";
+    return dateObject.getFullYear() + delimiter + this.formatLen(dateObject.getMonth() + 1) + delimiter + this.formatLen(dateObject.getDate());
+};
+
+DateUtil.prototype.toDay = function(delimiter) {
+    return this.formatDate(new Date(), "-");
+};
+
+DateUtil.prototype.calDate = function() {
+    var year = this.args.year == null ? 0 : Number(this.args.year);
+    var month = this.args.month == null ? 0 : Number(this.args.month);
+    var day = this.args.day == null ? 0 : Number(this.args.day);
+    var result = new Date();
+
+    result.setYear(result.getFullYear() + year);
+    result.setMonth(result.getMonth() + month);
+    result.setDate(result.getDate() + day);
+    return this.formatDate(result, "-");
+};
+
+DateUtil.prototype.setDate = function(startObject, endObject, args) {
+    this.startObject = startObject;
+    this.endObject = endObject;
+    this.args = args;
+
+    document.getElementById(this.startObject).value = this.calDate();
+    document.getElementById(this.endObject).value = this.toDay();
+};
+
+
+var DateUtil	= new DateUtil();
+
+
+
+/**
+ * 팝업호출
+ * @param url
+ * @param popupNm
+ * @param properties
+ */
+function common_popup(url,popupNm,properties){
+	window.open(url, popupNm, properties);
+}
+/**
+ * 윈도우 오픈1 (사용자 지정 위치생성) 
+ * @param : wUrl		지정url
+ * @param : wTitle	지정타이틀
+ * @param : wTop		지정 창 높이정렬기준
+ * @param : wLeft	지정 창 왼쪽정렬기준
+ * @param : wWidth	창넓이
+ * @param : wHeight	창높이
+ * @param : wSco		스크롤바 생성유무, 1:생성 0:비생성
+ */
+function common_popup2(wUrl,wTitle,wTop,wLeft,wWidth,wHeight,wSco) {
+	window.open(wUrl,wTitle,"top="+wTop+",left="+wLeft+",width="+wWidth+",height="+wHeight+",scrollbars="+wSco);
+}
+
+/**
+ * 윈도우 오픈2 (무조건 가운데 생성)
+ * @param wUrl			지정url
+ * @param wTitle		지정타이틀
+ * @param wWidth		창넓이
+ * @param wHeight		창높이
+ * @param wSco			스크롤바 생성유무, 1:생성 0:비생성
+ */
+function common_popup3(wUrl,wTitle,wWidth,wHeight,wSco) {
+	var top_po = (screen.availHeight/2) - (wHeight/2);
+	var left_po = (screen.availWidth/2) - (wWidth/2);
+	//alert(top_po +" "+left_po+ " "+wHeight+" "+wWidth);
+	window.open(wUrl,wTitle,"top="+top_po+",left="+left_po+",width="+wWidth+",height="+wHeight+",scrollbars="+wSco);
+}
+
+/**
+ * 가져오기 : 체크
+ * @param elementNm
+ * @returns {String}
+ */
+function common_getCheckedVal( element_name ){
+	var output="";
+	$("input[id='" + element_name + "']:checked").each(function(){
+		output = output + "," + $(this).val();
+	});
+	output = output.substring(1,output.length);
+	return output;
+}
+/**
+ * 셋팅 : 체크
+ * @param element_name
+ * @param val
+ */
+function common_setCheckedVal( element_name, val ){
+	$("input:checkbox[name='" + element_name + "'][value='" + val + "']").attr("checked", "checked");
+}
+/**
+ * 전체(선택,해지) : 체크
+ * @param element_name
+ * @param val
+ */
+function common_setCheckedAll( element_name ){
+	var switchValue = true;
+	if( common_getCheckedVal(element_name).length == 0)	switchValue = true;
+	else switchValue =false;
+	$("input:checkbox[id='" + element_name + "']").prop("checked", switchValue);
+}
+/**
+ * 가져오기 : 라디오
+ * @param element_name
+ * @returns
+ */
+function common_getRadioVal( element_name ){
+	return $(':radio[name="' + element_name + '"]:checked').val();
+}
+/**
+ * 셋팅 : 라디오
+ * @param element_name
+ * @param val
+ */
+function common_setRadioVal( element_name, val ){
+	$("input:radio[name='" + element_name + "'][value='" + val + "']").attr("checked", "checked");
+}
+/**
+ *  가져오기 : SELECT
+ * @param element_name
+ * @returns
+ */
+function common_getSelectVal( element_name ){
+	return $('#' + element_name + ' > option:selected').val();
+}
+/**
+ * 셋팅 : SELECT
+ * @param element_name
+ * @param val
+ */
+function common_setSelectVal( element_name, val ){
+	$('#' + element_name + ' > option[value=' + val + ']').attr('selected', 'true');
+}
+/**
+ * confirm
+ * @param msg
+ * @returns
+ */
+function common_confirm(msg){
+	return confirm(msg);
+}
+
+/**
+ * 파일사이즈 계산
+ * @param orgSize
+ * @returns {String}
+ */
+function common_getFileSize( orgSize ){
+	var trnSize		= orgSize;
+	var unitType;
+
+	if( trnSize > 1024 ) {
+		trnSize = trnSize/1024
+		unitType = "KB";
+	}
+	if( trnSize > 1024 ) {
+		trnSize = trnSize/1024
+		unitType = "MB";
+	}
+	if( trnSize > 1024 ) {
+		trnSize = trnSize/1024
+		unitType = "GB";
+	}
+	trnSize = Math.floor( trnSize*100 )/100;
+	return trnSize + " " + unitType;
+}
+
+/**
+ * duration->시간 계산
+ * @param duration
+ * @returns {String}
+ */
+function getTime(duration){
+	var hh			= "00";
+	var mm			= "00";
+	var ss				= "00";
+	//유효성 체크
+	if( duration > 86400 ) return "00:00:00";
+	
+	// 추출 : 시
+	if( duration >= (60*60) ){
+		hh = Math.floor( duration / (60*60) );
+		duration = duration - (hh*60*60);
+		if( hh<10 ) hh = "0" + hh;
+	}
+	// 추출 : 분
+	if( duration >= (60) ){
+		mm = Math.floor( duration / (60) );
+		duration = duration - (mm*60);
+		if( mm<10 ) mm = "0" + mm;
+	}
+	// 추출 : 초
+		ss = duration;
+		if( ss<10 ) ss = "0" + ss;
+	
+	return hh+":"+mm+":"+ss;
+	
+}
+
+//---------------------------------------------------------------------------------- common.js로 추출해야 할 항목 --
+
+</script>
+
+</html>
