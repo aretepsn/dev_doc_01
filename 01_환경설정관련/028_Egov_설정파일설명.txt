@@ -1,0 +1,21 @@
+- 작성일 : 2017.09.27
+
+ 1) context - aspect.xml
+     : AOP 관련 설정
+ 2) context-common.xml
+     : 공통/일반적인 설정
+ 3) context-datasource.xml
+     : DB 관련 설정
+ 4) context-idgen.xml
+     : 임의의 id 값을 생성
+ 5) context-mapper.xml
+     : DB 쿼리 이후, VO 객체에 대한 맵핑을 xbatis를 통해 할 수 있도록 설정
+ 6) context-sqlMap.xml
+     : DB 쿼리 SQL 파일 위치 및 설정
+ 7) context-transaction.xml
+     : 트랜젝션 설정
+ 8) context-validator.xml
+     : 유효성 검사 설정
+​
+  - ref
+    - 블로거 : http://blog.naver.com/lionlyloveil/220699239451

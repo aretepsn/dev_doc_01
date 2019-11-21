@@ -1,0 +1,76 @@
+- 작성일 : 2017.07.25
+- 016번과 기능적으론 동일함.
+
+- 테이블조회시 언어타입을 넘겨서 각 언어에 따른 명칭을 추출한다.
+  - SELECT DECODE('KO',ko_name,'EN',en_name,ko_name) AS code_name from tb_code where code = 'state'
+
+-  전자정부프레임워크 기본 샘플로 생성시 기본적으로 다국어가 셋팅되어 있다.
+  - http://localhost:8080/project_name/egovSampleList.do?language=en
+  - 샘플코드 참조(EgovSampleController.java, SampleDefaultVO.java, MainVO.java만 제외하고 나머진 기본샘플생성시 파일들이다.)
+    - EgovSampleController.java
+
+	/** Validator */
+	@Resource(name = "beanValidator")
+	protected DefaultBeanValidator beanValidator;
+		
+	private static final Logger logger = LoggerFactory.getLogger(EgovSampleServiceImpl.class);
+	@Autowired
+	SessionLocaleResolver localeResolver;
+	@Autowired
+	MessageSource messageSource;
+	/**
+	 * 글 목록을 조회한다. (pageing)
+	 * @param searchVO - 조회할 정보가 담긴 SampleDefaultVO
+	 * @param model
+	 * @return "egovSampleList"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/egovSampleList.do")
+	public String selectSampleList(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model, HttpServletRequest request, Locale locale) throws Exception {
+		logger.debug("Welcome i18n! The client locale is {}.", locale);
+		logger.debug("---------------------------");
+		String[] arg = new String[]{"11","22"};
+		logger.debug(messageSource.getMessage("fail.common.sql", arg, locale));
+		// localeResolver 로부터 Locale 을 출력해 봅니다.
+		logger.info("Session locale is {}.", localeResolver.resolveLocale(request));
+		String lang = locale.getDisplayCountry();
+		String lang2 = ""+locale;
+		logger.info(lang);
+		logger.info(lang2);
+		searchVO.setLocaleLang(locale);
+		logger.info(searchVO.getLocaleLang());
+
+
+    - SampleDefaultVO.java
+ * @see
+ *
+ *  Copyright (C) by MOPAS All right reserved.
+ */
+public class SampleDefaultVO  extends MainVO implements Serializable {
+	/**
+	 *  serialVersion UID
+	 */
+	private static final long serialVersionUID = -858838578081269359L;
+
+
+    - MainVO.java
+	/**
+	 *  serialVersion UID
+	 */
+	private static final long serialVersionUID = -858838578081269359L;
+	/** 접속언어 */
+	private String localeLang = "";
+	public String getLocaleLang() {
+		return localeLang;
+	}
+	public void setLocaleLang(String localeLang) {
+		this.localeLang = localeLang;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+- ref
+  - http://pentode.tistory.com/77
+  - http://www.egovframe.go.kr/wiki/doku.php?id=egovframework:rte:ptl:internationalization#설명
+  - 블러그 : http://pentode.tistory.com/77

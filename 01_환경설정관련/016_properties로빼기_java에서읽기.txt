@@ -1,0 +1,53 @@
+- 작성일 : 2017.07.20
+- 018번과 기능적으론 동일함.
+
+- globals.properties파일 생성
+
+-  context-properties.xml파일에 다음과 같이 추가
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+	<bean name="propertiesService" class="egovframework.rte.fdl.property.impl.EgovPropertyServiceImpl" destroy-method="destroy">
+		<property name="properties">
+	        <map>
+	        	<entry key="pageUnit" value="10"/>
+	        	<entry key="pageSize" value="10"/>
+	        </map>
+		</property>
+		<property name="extFileName">
+			<set>
+				<map>
+					<entry key="encoding" value="UTF-8"/>
+					<entry key="filename" value="classpath*:globals.properties"/>
+				</map>
+			</set>
+		</property>
+	</bean>
+	
+</beans>	
+
+- controller.java에서 아래와 같이 사용하면 된다.
+	@Autowired
+	EgovPropertyService propertiesService;
+	@RequestMapping(value="/fw",method=RequestMethod.POST)
+	public ModelAndView fw(
+			@RequestHeader(value="mac"		,defaultValue="empty") String headerMac,
+			@ModelAttribute("apiSearchVO") SearchFwVO searchVO,
+			HttpServletRequest request,
+			ModelMap modelMap) throws Exception {
+
+		String aaa1 = propertiesService.getString("Globals.UserName");
+		
+		// 필수파라미터 체크
+		if( searchVO.getMac() == null || searchVO.getModel() ==null || searchVO.getVer() == null){
+			return ApiConvert.error("3100");
+		}
+//		System.out.println(request.getHeader("host") );
+//		searchVO.setIp( request.getRemoteAddr() );
+		String reqIp = Common.getRemoteIp(request);
+		searchVO.setIp( reqIp +" headerMac : " + headerMac );
+	}
+
+- ref
+  - http://yangyag.tistory.com/191

@@ -1,0 +1,45 @@
+작성일 : 2017.09.27
+
+- pom.xml추가
+    <!-- Excel Read/Write 를 위한 Dependency 추가 -->
+    <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi</artifactId>
+        <version>3.11</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi-ooxml</artifactId>
+        <version>3.11</version>
+    </dependency>
+
+- 자바생성
+  - ExcelCellRef.java
+  - ExcelFileType.java
+  - ExcelRead.java
+  - ExcelReadOption.java
+
+- controller추가
+	@RequestMapping(value = "/sample/xls.do")
+	public void sampleXls() throws Exception {
+		 
+        File destFile = new File("D:/abc.xlsx");
+        ExcelReadOption readOption = new ExcelReadOption();
+	  readOption.setFilePath(destFile.getAbsolutePath());
+	  readOption.setOutputColumns("A","B","C","D");
+	  readOption.setStartRow(2);
+	  
+	  List<Map<String, String>> excelContent = ExcelRead.read(readOption);
+	  
+	  for(Map<String, String> article : excelContent){
+		   System.out.println(article.get("A"));
+		   System.out.println(article.get("B"));
+		   System.out.println(article.get("C"));
+		   System.out.println(article.get("D"));
+	  }
+	}
+
+
+- ref
+  - 블로거 : http://madeinjeon.tistory.com/59
+  - 블로거 : http://daydreamer-92.tistory.com/42

@@ -1,0 +1,137 @@
+작성일 : 20180312
+
+
+
+package test;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+public class Taaab {
+
+	public static void main(String[] args) {
+		try{
+			String result = encoding("test123");
+			System.out.println(result);
+		}catch(Exception e){
+			System.out.println("mmmmmmain->"+e);
+		}
+	}
+
+	public static String encoding(String param) throws Exception{
+		String result = "";
+		try{
+			MessageDigest md = MessageDigest.getInstance("SHA-256");
+			md.update(param.getBytes());
+			byte bs[] = md.digest();
+			StringBuffer sb =new StringBuffer();
+			for(int i=0;i<bs.length;i++){
+				sb.append(Integer.toString((bs[i]&0xff)+0x100,16).substring(1));
+			}
+			result = sb.toString();
+			System.out.println("result:"+result);
+		}catch(NoSuchAlgorithmException e){
+			System.out.println(e.toString());
+			throw e;
+		}catch(Exception e){
+			System.out.println(e.toString());
+			throw e;
+		}
+		return result;
+	}
+
+}
+
+//ref : http://androiddev.tistory.com/473
+
+
+
+/** 
+AES-256 암호화
+package test;
+
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.apache.tomcat.util.codec.binary.Base64;
+
+public class Test {
+
+	private String iv;
+	private Key keySpec;
+
+
+	public static void main(String[] args) {
+		Test abc = new Test();
+		try{
+			System.out.println("iv:"+abc.iv+"+");
+			abc.AES256Util("1234567890123456");
+			System.out.println("iv:"+abc.iv+"+");
+			System.out.println("abc.encrypt : "+abc.encrypt(abc.iv) );
+			System.out.println("abc.decrypt : "+abc.decrypt("2LWYSMdnDJSym1TSN54uesXryeud7lOPCtlpWV16dAw="));
+			abc.AES256Util("1234567890123457");
+			System.out.println("abc.decrypt : "+abc.decrypt("2LWYSMdnDJSym1TSN54uesXryeud7lOPCtlpWV16dAw="));
+		}catch (Exception e) {
+			System.out.println("Exception : " + e);
+		}
+	}
+
+	/**
+	 * 16자리의 키값을 입력하여 객체를 생성한다.
+	 * @param key : 암/복호화를 위한 키값
+	 * @throws UnsupportedEncodingException
+	 */
+	public void AES256Util(String key) throws UnsupportedEncodingException {
+		this.iv = key.substring(0, 16);
+		byte[] keyBytes = new byte[16];
+		byte[] b = key.getBytes("UTF-8");
+		int len = b.length;
+		if(len > keyBytes.length){
+			len = keyBytes.length;
+		}
+		System.arraycopy(b, 0, keyBytes, 0, len);
+		SecretKeySpec keySpec = new SecretKeySpec(keyBytes, "AES");
+		this.keySpec = keySpec;
+	}
+
+	/**
+	 * AES256 으로 암호화 한다.
+	 * @param str 암호화할 문자열
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 * @throws GeneralSecurityException
+	 * @throws UnsupportedEncodingException
+	 */
+	public String encrypt(String str) throws NoSuchAlgorithmException, GeneralSecurityException, UnsupportedEncodingException{
+		Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");
+		c.init(Cipher.ENCRYPT_MODE, keySpec, new IvParameterSpec(iv.getBytes()));
+		byte[] encrypted = c.doFinal(str.getBytes("UTF-8"));
+		String enStr = new String(Base64.encodeBase64(encrypted));
+		return enStr;
+	}
+
+	/**
+	 * AES256으로 암호화된 txt 를 복호화한다.
+	 * @param str 복호화할 문자열
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 * @throws GeneralSecurityException
+	 * @throws UnsupportedEncodingException
+	 */
+	public String decrypt(String str) throws NoSuchAlgorithmException, GeneralSecurityException, UnsupportedEncodingException {
+		Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");
+		c.init(Cipher.DECRYPT_MODE, keySpec, new IvParameterSpec(iv.getBytes()));
+		byte[] byteStr = Base64.decodeBase64(str.getBytes());
+		return new String(c.doFinal(byteStr), "UTF-8");
+	}
+}
+
+*/
+
+//ref : http://18281818.tistory.com/83

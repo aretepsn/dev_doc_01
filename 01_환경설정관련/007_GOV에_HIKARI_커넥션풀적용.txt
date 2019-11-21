@@ -1,0 +1,54 @@
+- 작성일 : 20170616
+
+- GOV가 MYSQL과 연결된다는 전제하여 설명함.
+
+- pom.xml 추가
+	<!--  hikari -->
+	<dependency>
+		<groupId>com.zaxxer</groupId>
+		<artifactId>HikariCP</artifactId>
+		<version>2.4.6</version>
+	</dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.31</version>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.log4jdbc</groupId>
+            <artifactId>log4jdbc</artifactId>
+            <version>1.2</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>slf4j-api</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+	<!-- 표준프레임워크 실행환경 -->
+	<dependency>
+	    <groupId>egovframework.rte</groupId>
+
+- context-datasource.xml 추가
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
+    <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+    <property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/test" />
+    <property name="username" value="root"/>
+    <property name="password" value="1111"/>
+    <property name="minimumIdle" value="100"/>
+    <property name="maximumPoolSize" value="100"/>
+    <property name="connectionTestQuery" value="select 1"/>
+    <property name="dataSourceProperties">
+        <props>
+            <prop key="cachePrepStmts">true</prop>
+            <prop key="prepStmtCacheSize">250</prop>
+            <prop key="prepStmtCacheSqlLimit">2048</prop>
+            <prop key="useServerPrepStmts">true</prop>
+        </props>
+    </property>
+</bean>
+
+- 참조
+  - https://gs.saro.me/#!m=elec&jn=752
+  - http://hskimsky.tistory.com/5
+  - http://netframework.tistory.com/entry/HikariCP-%EC%86%8C%EA%B0%9C

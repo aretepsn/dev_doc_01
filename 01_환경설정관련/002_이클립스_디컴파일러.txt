@@ -1,0 +1,11 @@
+- 작성일 : 20170609
+- 수정일 : 20170810
+
+- 이클립스에서 class파일을 자동으로 디컴파일러 해주는 플러그인을 설치하여 자동으로 CLASS소스를 확인할 수 있도록한다.
+  - 이클립스 : Help > Eclipse Marketplace클릭 (참조 : 01_이클립스마켓.png)
+  - 검색어 'decompiler' 입력후 설치
+
+- ref
+  - URL : http://ccambo.blogspot.kr/2014/03/java-eclipse-decompiler.html
+  - 구글 검색 : jadclipse 설치
+  - ref : %JAVA_HOME%\bin;C:\ProgramData\Oracle\Java\javapath;%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\

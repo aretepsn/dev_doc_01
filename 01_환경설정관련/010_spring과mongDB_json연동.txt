@@ -1,0 +1,93 @@
+- spring+mongdb+json 연동방법
+  - 선행 테스트 해야 할 부분은  "003", "009"항목을 참조하면 된다.
+
+- 전자정부프레임워크 설치
+  - 샘플 웹서비스가 되는지 확인
+    - json형태로 데이타를 보내주는지 확인
+  - mongodb설치 해야함
+
+- MongoTestListInList.java 수행하여 데이터를 입력하낟.
+
+- EgovSampleController.java 추가
+
+	/** Validator */
+	@Resource(name = "beanValidator")
+	protected DefaultBeanValidator beanValidator;
+
+    private MongoTemplate mongoTemplate;
+    private MongoOperations mongoOperation;
+	@RequestMapping(value = "/mongodb.ajax")
+	public ModelAndView mongodb(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model) throws Exception {
+		//접속설정
+        String mongoContextPath = "/egovframework/spring/context-mongodb.xml";
+        AbstractApplicationContext ctx = new ClassPathXmlApplicationContext(mongoContextPath);
+        mongoTemplate = (MongoTemplate) ctx.getBean("mongoTemplate");
+        mongoOperation =(MongoOperations) ctx.getBean("mongoTemplate");
+        //쿼리
+        String tableNm = "person";
+        String key = "name";
+        String value = "둘리---2";
+    	Criteria criteria = new Criteria(key);
+    	criteria.is(value);
+    	Query query = new Query(criteria);
+    	List<MongoTestVO2> mongoTestVO = mongoTemplate.find(query, MongoTestVO2.class, tableNm);
+    	System.out.println("----------------------------------------"+mongoTestVO);
+    	//데이타셋 담기
+		Map resultMap = new HashMap();
+		resultMap.put("result", mongoTestVO);
+		resultMap.put("result1", "11111");
+		resultMap.put("result2", "22222");
+		ModelAndView mav = new ModelAndView("jsonView",resultMap);
+		return mav;
+	}
+    private class MongoTestVO2 {
+    	//생성자가 없으면 find시 에러발생
+    	public MongoTestVO2(){}
+        // 반드시 id annotation이 붙은 id 변수가 필요!
+        @Id
+        private String id;
+        private String name;
+        private String address;
+        private int age;
+        private Object item;
+		public String getId() {
+			return id;
+		}
+		public void setId(String id) {
+			this.id = id;
+		}
+		public String getName() {
+			return name;
+		}
+		public void setName(String name) {
+			this.name = name;
+		}
+		public String getAddress() {
+			return address;
+		}
+		public void setAddress(String address) {
+			this.address = address;
+		}
+		public int getAge() {
+			return age;
+		}
+		public void setAge(int age) {
+			this.age = age;
+		}
+		public Object getItem() {
+			return item;
+		}
+		public void setItem(Object item) {
+			this.item = item;
+		}
+    	
+    }
+	
+	/**
+	 * 글 목록을 조회한다. (pageing)
+	 * @param searchVO - 조회할 정보가 담긴 SampleDefaultVO
+
+
+
+- 확인은 jsp를 만들어야 하므로 크롬앱인 포스트맨으로 확인한다.
+  - 단그전에 restful이 지원되어야 한다. [참조 : 003]

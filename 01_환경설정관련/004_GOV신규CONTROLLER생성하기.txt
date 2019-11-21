@@ -1,0 +1,19 @@
+- 작성일 : 2017609
+
+-  dispatcher-servlet.xml 수정
+- D:\workspace\dev_test\src\main\webapp\WEB-INF\config\egovframework\springmvc\dispatcher-servlet.xml
+- 수정 (패키지명 최상단 등록)
+    <context:component-scan base-package="egovframework,ttlabc">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+    </context:component-scan>
+
+  - 생성 : controller,service,serivceimpl,dao,vo 
+    - 첨부참조
+  - 수정 : D:\workspace\dev_test\src\main\resources\egovframework\sqlmap\example\sql-map-config.xml
+    - 첨부참조
+  - 수정 : D:\workspace\dev_test\src\main\webapp\WEB-INF\config\egovframework\springmvc\dispatcher-servlet.xml
+    - 첨부참조
+  - 생성 : D:\workspace\dev_test\src\main\resources\egovframework\sqlmap\ttlabc\api\ApiTest_SQL.xml
+

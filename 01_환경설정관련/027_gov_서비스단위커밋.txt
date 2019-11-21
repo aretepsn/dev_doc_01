@@ -1,0 +1,17 @@
+- 작성일 : 2017.09.27
+
+- "004_01_GOV신규CONTROLLER생성하기" 항목이 선행되어야 한다.
+
+- context-transaction.xml 수정
+	<aop:config>
+<!-- 		<aop:pointcut id="requiredTx" expression="execution(* egovframework.example.sample..impl.*Impl.*(..))"/> -->
+		<aop:pointcut id="requiredTx" expression="execution(* ttlabc.cms..*Impl.*(..))"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="requiredTx" />
+	</aop:config>
+
+- ref
+  - gov홈피 : http://www.egovframe.go.kr/wiki/doku.php?id=egovframework:let:configration
+  - 블로거 : http://yeti.tistory.com/36
+
+  - 구글검색어 : spring transaction aop 설정
+  - ref : http://seongilman.tistory.com/119, http://anis0721.tistory.com/19

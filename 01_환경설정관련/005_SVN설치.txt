@@ -1,0 +1,9 @@
+- 작성일 : 2017
+
+- SVN서버설치
+  - 프로그램설치 : https://www.collab.net/downloads/subversion
+
+- client설치
+  - 000_참조파일
+    - svn64bit.zip-client 설치
+

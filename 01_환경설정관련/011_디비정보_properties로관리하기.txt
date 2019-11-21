@@ -1,0 +1,20 @@
+- context-datasource.xml파일에 다음과 같이 추가한다.
+        <property name="password" value="${mysql.password}"/>
+    </bean>
+	
+	<bean id="dbinfo" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:/global.properties</value>
+			</list>
+		</property>
+
+- global.properties파일을 해당위치에 생성한다.
+  (D:\workspace\dev_ttapi\src\main\resources\global.properties)
+######## DB Master #########
+mysql.username=root
+mysql.password=1111
+mysql.url=jdbc:mysql://127.0.0.1:3306/cmsdb
+
+- compile후 was를 재가동하여 테스트를 한다.(접속정보가 틀린경우와 맞는경우)
+

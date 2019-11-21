@@ -1,0 +1,41 @@
+- 작성일 : 2017.07.26
+
+ffmpeg -i d:\98_temp\come_back_home.mp4 -ar 44100 -ab 32 -f flv -s 640x480 d:\98_temp\2.flv
+
+ffmpeg -i d:\98_temp\come_back_home.mp4 -an -r 1 -y -s 640x480 test%d.jpg
+
+
+- http://ffmpeg.zeranoe.com/builds/win64/static/ 사이트에서 최신버전을 받아 압축을 해제한다.( ex.d:\98_temp\ffmpeg )
+  - ffmpeg-latest-win64-static.7z
+
+- 동영상 파일을 하나 준비한다.
+  - 동영상파일 위치 d:\98_temp\come_back_home.mp4
+  -아래와 같이 명령어를 수행한다. ( 예제파일참조 : Test.java )
+    - 명령기본구조 : ffmpeg [global_options] {[input_file_options] -i input_file} ... {[output_file_options] output_file} ...
+//		//동영상 정보추출
+		cmd += "ffmpeg -i d:\98_temp\come_back_home.mp4";
+//		//flv로 인코딩한다.
+//		cmd += "ffmpeg -i d:\98_temp\come_back_home.mp4 -ar 44100 -ab 32 -f flv -s 640x480 d:\98_temp\2.flv";
+//		//썸네일 추출
+//		cmd += "ffmpeg -i d:\98_temp\come_back_home.mp4 -an -r 1 -y -s 640x480 test%d.jpg";
+
+- java파일 수행 (예제파일참조 : Test.java)
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Runtime run = Runtime.getRuntime();
+		String cmd = "D:\98_temp\ffmpeg\bin\ffmpeg -i d:\98_temp\come_back_home.mp4 -ar 44100 -ab 32 -f flv -s 640x480 d:\98_temp\2.flv";
+		try{
+			run.exec(cmd);
+		}catch(Exception e){
+			System.out.println("error:" + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+
+- ref
+  - 블로거 : http://c8h11no2.tistory.com/24
+  - 공식홈페이지 : http://ffmpeg.org/ffmpeg.html
+  - 블로거[ffmpeg 옵션설명] : http://hodol.kr/xe/note/18420
+  - 안드로이드기준 설명[네이버API] : http://d2.naver.com/helloworld/8794
+  - 블로거[ffpeg옵션설명] : http://blog.daum.net/nbdjj1998/83

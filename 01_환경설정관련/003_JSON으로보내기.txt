@@ -1,0 +1,99 @@
+- 작성일 : 2017609
+
+- 웹서비스에서 CONTROLLER를 수행후 JSP파일 없이 자동으로 JSON형태로 데이터를 화면에 제공해주는 서비스 설치
+  (RESTFUL API 개념으로 가기 위한것...)
+  - GOV에서 제공하는 기본템블릿경로로 접근하였을때 JSON타입으로 리턴해야 한다.
+  - 참조 
+    - http://wjheo.tistory.com/entry/%EC%A0%84%EC%9E%90%EC%A0%95%EB%B6%80%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%8C%ED%81%AC-jsp-%EC%BB%A8%ED%8A%B8%EB%A1%A4%EB%9F%AC%EA%B0%84-json%EB%8D%B0%EC%9D%B4%ED%84%B0-ajax%ED%86%B5%EC%8B%A0
+    - http://blog.nachal.com/790
+    - https://optimumcode.wordpress.com/2016/03/19/mappingjacksonjsonview-not-working-with-spring-4-x-x/
+    - JSON파싱사이트 : http://json.parser.online.fr/
+    - 첨부파일 
+
+
+  - pom.xml 수정 ( RUN AS > maven install )
+  - D:\workspace\test_svn\pom.xml
+		<!-- json -->
+		<dependency>        
+		    <groupId>net.sf.json-lib</groupId>        
+		    <artifactId>json-lib</artifactId>        
+		    <version>2.4</version>        
+		    <classifier>jdk15</classifier>    
+		</dependency>
+		<dependency> 
+		    <groupId>org.codehaus.jackson</groupId> 
+		    <artifactId>jackson-mapper-asl</artifactId> 
+		    <version>1.6.4</version> 
+		</dependency>
+		   <dependency>
+		        <groupId>com.fasterxml.jackson.core</groupId>
+		        <artifactId>jackson-databind</artifactId>
+		        <version>2.6.5</version>
+		</dependency>
+    - "RUN AS > MAVEN INSTALL
+
+  - web.xml 수정
+  - D:\workspace\test_svn\src\main\webapp\WEB-INF\web.xml
+	<servlet-mapping>
+	    <servlet-name>action</servlet-name>
+	    <url-pattern>*.ajax</url-pattern>
+	</servlet-mapping>
+
+  - dispatcher-servlet.xml 수정
+  - D:\workspace\test_svn\src\main\webapp\WEB-INF\config\egovframework\springmvc\dispatcher-servlet.xml
+    <!-- JSON -->
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" id="viewResolver" p:order="0"/>
+	<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" id="jsonView">
+	    <property name="contentType" value="application/json;charset=UTF-8"/>
+	</bean>
+    <context:component-scan base-package="egovframework">
+
+- 호출될 EgovSampleController.java 추가
+- D:\workspace\test_svn\src\main\java\egovframework\example\sample\web\EgovSampleController.java
+
+	@RequestMapping(value = "/egovSampleList.ajax")
+	public ModelAndView selectSampleListAjax(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model) throws Exception {
+
+		/** EgovPropertyService.sample */
+		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+		searchVO.setPageSize(propertiesService.getInt("pageSize"));
+
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List<?> sampleList = sampleService.selectSampleList(searchVO);
+		model.addAttribute("resultList", sampleList);
+
+		int totCnt = sampleService.selectSampleListTotCnt(searchVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
+
+		Map resultMap = new HashMap();
+		resultMap.put("result1", "11111");
+		resultMap.put("result2", "22222");
+		ModelAndView mav = new ModelAndView("jsonView",resultMap);
+		return mav;
+	}
+
+- 헤더로 "nameKKK"이름으로 값을 보내는 경우
+  ㅡ ref : https://stackoverflow.com/questions/14447731/optional-request-header-in-spring-rest-service
+  ㅡ클랙스 상단을 다음과 같이 변경해도되고 안해도 상관없는듯함. @Controller ->@RestController
+
+	//모든 요청[get,post...]이 해당 url로 들어온 경우 해당 메소드 수행
+	@RequestMapping(value = "/egovSampleList.ajax")
+	public ModelAndView selectSampleListAjax(@RequestHeader("nameKKK") String nameKKK,@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model) throws Exception {
+	}
+
+	//POST요청시만 해당 메소드를 수행
+	//포스트맨기준
+	//Headers : [namekKKK:123321]
+	//Body.x-www-form-urlencoded : [mac:x-www-form]
+	@RequestMapping(value = "/queryList.ajax", method=RequestMethod.POST)
+	public ModelAndView queryList(@RequestHeader("nameKKK") String nameKKK,@RequestParam("mac") String mac, ModelMap model) throws Exception {

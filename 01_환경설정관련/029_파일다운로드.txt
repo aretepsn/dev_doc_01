@@ -1,0 +1,47 @@
+작성일 : 2017.09.27
+
+- JSP에 아래와 같이 경로 추가
+	<a href="<c:url value='/sample/download.do?'/>requestedFile=20170912_0177899978">다운로드</a>
+
+- controller
+	@RequestMapping(value = "sample/download.do")
+	public void sampleDownload(
+			@RequestParam(value = "requestedFile") String requestedFile,
+			HttpServletResponse response) throws Exception {
+		String uploadPath		= "D:/workspace/dev_ttcms/src/main/webapp/images/contents/image/";
+		requestedFile = "20170912_0177899978";
+		File uFile = new File(uploadPath, requestedFile);
+		int fSize = (int) uFile.length();
+ 
+		if (fSize > 0) {
+			BufferedInputStream in = new BufferedInputStream(new FileInputStream(uFile));
+			// String mimetype = servletContext.getMimeType(requestedFile);
+			String mimetype = "text/html";
+ 
+			response.setBufferSize(fSize);
+			response.setContentType(mimetype);
+			response.setHeader("Content-Disposition", "attachment; filename=\"" + "다운로드.jpg" + "\"");
+			response.setContentLength(fSize);
+ 
+			FileCopyUtils.copy(in, response.getOutputStream());
+			in.close();
+			response.getOutputStream().flush();
+			response.getOutputStream().close();
+		} else {
+			//setContentType을 프로젝트 환경에 맞추어 변경
+			response.setContentType("application/x-msdownload");
+			PrintWriter printwriter = response.getWriter();
+			printwriter.println("<html>");
+			printwriter.println("<br><br><br><h2>Could not get file name:<br>"
+					+ requestedFile + "</h2>");
+			printwriter
+					.println("<br><br><br><center><h3><a href='javascript: history.go(-1)'>Back</a></h3></center>");
+			printwriter.println("<br><br><br>&copy; webAccess");
+			printwriter.println("</html>");
+			printwriter.flush();
+			printwriter.close();
+		}
+	}
+
+- ref
+  - egov홈피 : https://www.egovframe.go.kr/wiki/doku.php?id=egovframework:rte:fdl:file_download

@@ -1,0 +1,33 @@
+- 작성일 : 2017.07.20
+
+-  context-datasource.xml에 다음과 같이 추가..
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/jdbc  http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd">
+
+    <bean id="propertyConfigurer"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:/properties/globals.properties</value>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- Mysql  -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="${Globals.Url}" />
+        <property name="username" value="${Globals.UserName}"/>
+        <property name="password" value="${Globals.Password}"/>
+    </bean>
+    
+
+- globals.properties파일 생성
+## DB 개발 ################################ 
+# DB 사용자 계정  
+Globals.UserName=root
+# DB 사용자 암호
+Globals.Password=1111
+# DB 연결 정보
+Globals.Url=jdbc:mysql://127.0.0.1:3306/api_erd
+

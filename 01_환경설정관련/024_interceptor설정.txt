@@ -1,0 +1,24 @@
+- 작성일 : 2017.08.23
+
+- egov프레임워크를 설치한후 기본으로 was를 올린다.
+
+- dispatcher-servlet.xml파일에 아래와 같이 추가한다.
+<!--     interceptor -->
+    <mvc:interceptors>
+        <bean class="ttlabc.api.com.interceptor.IpObtainInterceptor" />
+        <mvc:interceptor>
+            <mvc:mapping path="/**/*.do" />
+            <mvc:exclude-mapping path="/api/**" />
+            <bean class="ttlabc.api.com.interceptor.AuthenticInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
+    
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
+    <!-- 쿠키를 이용한 Locale 이용시 <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver"/> -->
+    <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+        <property name="paramName" value="language" />
+    </bean>
+
+-  ttlabc.api.com.interceptor패키지에 아래와 같이 파일을 포함한다.
+  - AuthenticInterceptor.java
+  - IpObtainInterceptor.java

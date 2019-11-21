@@ -1,0 +1,18 @@
+- 작성일 : 2017.07.26
+
+- 전자정부프레임워크의 기본프로젝트를 생성한다.
+- pom.xml 파일에 아래와 같이 추가하고, "runAS> Maven install"을 수행한다.
+	<dependency>
+  <groupId>net.bramp.ffmpeg</groupId>
+  <artifactId>ffmpeg</artifactId>
+  <version>0.6.1</version>
+</dependency>
+		<!-- 표준프레임워크 실행환경 -->
+
+- 첨부된 소스를 수행한다. [ Test.java, Test3.java ]
+- 소스상에서 ffmpeg.exe, ffprobe.exe파일 위치를 확인한다.
+
+- ref 
+  - JAVA소스로 구성된 예제 소스 [GIT] https://github.com/bramp/ffmpeg-cli-wrapper.git
+  - 위의 git소스의 doc 문서 : https://bramp.github.io/ffmpeg-cli-wrapper/
+  - Test.java 소스예제 위치 : https://github.com/bramp/ffmpeg-cli-wrapper

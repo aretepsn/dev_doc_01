@@ -1,0 +1,6 @@
+- 작성일 : 2017.09.07
+
+-  js,jsp서블릿파일 위치
+  - D:\workspace\.metadata\.plugins\org.eclipse.wst.server.core
+
+- ref : 블로그 : http://egloos.zum.com/devfuner/v/4553872

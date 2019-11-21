@@ -1,0 +1,6 @@
+- MongoTestListInList.java 어플리케이션을 수행해서 데이터를 입력한다.
+
+- EgovSampleController.java소스를 수정한다.
+  - query
+  - basic
+  - 확인은 포스트맨으로 확인해야 한다.

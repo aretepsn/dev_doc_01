@@ -1,0 +1,15 @@
+- 작성일 : 2017.07.31
+
+- 설치
+  - 다운로드 후 압축해제(c:\jsdoc)
+    - http://code.google.com/p/jsdoc-toolkit/
+
+  - 이클립스 설정 [참조 : 01_이클립스실행.png]
+    - argument : -jar jsrun.jar app\run.js -a -t=templates\jsdoc ${project_loc}\src\main\webapp\js -d=${project_loc}\jsdoc
+    - java -jar -jsrun.jar app/run.js 문서화할자바스크립트경로 -t=templates/jsdoc -d=문서가생성될폴더
+    - ${project_loc}\jsdoc 폴더가 생성되어 있고, js소스도 복사되어 보관되어 있음.
+
+
+-  ref
+  - 블로거[설치방법] : http://cubenuri.tistory.com/53
+  - tag 사용법 : http://usejsdoc.org/

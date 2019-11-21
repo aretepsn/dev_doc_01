@@ -1,0 +1,61 @@
+- 작성일 : 2017.07.27
+
+//동영상 정보추출
+	ffmpeg -i "D:\98_temp\ffmpeg\bin\timer.mp4"
+//flv로 인코딩한다.
+	ffmpeg -i D:\98_temp\ffmpeg\bin\timer.mp4 -ar 44100 -ab 32 -f flv -s 640x480 D:\98_temp\ffmpeg\bin\2.flv
+
+//썸네일 추출
+// 1-2파일은 무조건 첫프레임을 찍는다.
+//전체 영상을 스냅샷 추출
+	ffmpeg -i D:\98_temp\ffmpeg\bin\timer.mp4 -an -r 1 -y -s 640x480 test%d.jpg
+//00:05:00부분 스냅샷 추출 [처음부터 읽기 때문에 다소 시간이 오래걸림]
+	ffmpeg -i timer.mp4 -an -ss 00:05:00 -vframes 1 -y %2d.jpg
+	ffmpeg -i timer.mp4 -an -ss 00:50:00 -vcodec png -vframes 1 -y %2d.png
+//00:05:00부분 스냅샷 추출 [-ss부분을 앞으로 추출하면 엄청빠름]
+	ffmpeg -ss 00:50:00 -i timer.mp4 -an -vcodec png -vframes 1 -y %2d.png\
+//00:12:21부분 스냅샷 추출 [-ss부분을 앞으로 추출하면 엄청빠름]
+	ffmpeg -ss 741.3 -i timer.mp4 -an -vcodec png -vframes 1 -y 01.png
+//01:40:00부분 스냅샷 추출 [처음부터 읽기 때문에 다소 시간이 오래걸림]
+	ffmpeg -i timer.mp4 -f image2 -ss 6000 -vframes 1 frame.png
+//00:00:00부터 5초단위로 10장의 스냅샷 추출,
+	ffmpeg -i timer.mp4 -an -ss 00:00:00 -qscale 1 -r 0.2 -vframes 10 -y %1d.jpg
+//00:00:00부터 3초단위로 10장의 스냅샷 추출
+//동영상 파일정보에서 fps값/3초(29.97/(3*29.97)=9.99) 값을 설정한다.
+	ffmpeg -i timer.mp4 -an -ss 00:00:00 -r 0.33 -vframes 10 -y %1d.jpg
+//00:00:00부터 5초단위로 10장의 스냅샷 추출
+	ffmpeg -i timer.mp4 -an -ss 00:00:00 -r 0.2 -vframes 10 -y %1d.jpg
+//15:04.67의 동영상 스냅샷 10장찍기
+//904.67(초)/10(장) = 90.467(초), 29.97(fps) / (90(초) X 29.97(fps)) = 0.011111
+//스냅샷찍는부분까지 동영상을 읽어야 하기 때문에 -r이 적고, -vframes(스냅샷장수)의 수가 크면 다소 시간이 걸린다.
+	ffmpeg -i timer.mp4 -an -ss 00:00:00 -qscale 1 -r 0.011111 -vframes 12 -y %1d.jpg
+//02:03:33의 동영상 스냅샷 10장찍기
+//7414.40(초)/10(장) = 7414.40(초), 23.98(fps) / (7414.40(초) X 23.98(fps)) = 0.000135
+//스냅샷찍는부분까지 동영상을 읽어야 하기 때문에 -r이 적고, -vframes(스냅샷장수)의 수가 크면 다소 시간이 걸린다.
+	ffmpeg -i timer.mp4 -an -qscale 1 -r 0.000135 -vframes 12 -y %1d.jpg
+
+
+//동영상자르기
+//수행시간 : 스냅샵보다 시간이 짧은듯 하다
+//00:50:00 ~ 00:50:10 동안 자르기
+	ffmpeg -i timer.mp4 -c copy -ss 00:50:00 -t 00:00:10 -y d:\98_temp\ffmpeg\bin\timer_cut.mp4
+
+
+
+//음악파일이 이미지 삽입하기
+//한장만 반복 [-loop 1]
+	ffmpeg -loop 1 -i 1.jpg -i song.mp3 -c:v libx264 -c:a aac -b:a 192k -shortest song_img.mp4
+
+//음악파일이 이미지 삽입하기
+//여러장 삽입, 음악에 맞추어 이미지없으면 처음부터 반복
+	ffmpeg -loop 1 -i zz%1d.jpg -i song.mp3 -c:v libx264 -c:a aac -b:a 192k -shortest song_img.mp4
+
+//동영상정보 추출
+//json형태로 받기
+ffprobe.exe -v quiet -print_format json -show_error -show_format -show_streams timer.mp4
+
+
+- 옵션설명 : 01902_옵션.xls
+- ref
+  - 블로거 : http://hodol.kr/xe/note/18420
+  - 블로거 : http://tinyfall.tistory.com/163

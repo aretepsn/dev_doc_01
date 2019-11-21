@@ -1,0 +1,51 @@
+- 작성일 : 2017.08.29
+
+- 003의 설명에 추가사항
+
+- pom.xml 수정
+		<!-- json -->
+		<dependency>        
+		    <groupId>net.sf.json-lib</groupId>        
+		    <artifactId>json-lib</artifactId>        
+		    <version>2.4</version>        
+		    <classifier>jdk15</classifier>    
+		</dependency>
+		<dependency> 
+		    <groupId>org.codehaus.jackson</groupId> 
+		    <artifactId>jackson-mapper-asl</artifactId> 
+		    <version>1.6.4</version> 
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.6.5</version>
+		</dependency>
+		<!-- json -->
+		<!-- 표준프레임워크 실행환경 -->
+
+- dispatcher-sevlet.xml 수정
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+    </context:component-scan>
+
+    <!-- JSON -->
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" id="viewResolver" p:order="0"/>
+	<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" id="jsonView">
+	    <property name="contentType" value="application/json;charset=UTF-8"/>
+	</bean>
+
+- SampleController.java
+  -  ajax요청에 응답하는 controller
+
+- sampleChildeCodeListAjaxIndex.jsp
+  - ajax가 담겨져 있는 jsp
+
+- sample2_index.jsp
+  - 샘플2번째 : ajax를 요청하는 jsp
+
+- sample2_response.jsp
+  - 샘플2번째 : ajax요청에 응답하는 jsp
+
+-  ref
+  - 블로거 : http://huskdoll.tistory.com/107
+  - 블로거 : http://wjheo.tistory.com/169
+  - 블로거 : http://wjheo.tistory.com/entry/%EC%A0%84%EC%9E%90%EC%A0%95%EB%B6%80%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%8C%ED%81%AC-jsp-%EC%BB%A8%ED%8A%B8%EB%A1%A4%EB%9F%AC%EA%B0%84-json%EB%8D%B0%EC%9D%B4%ED%84%B0-ajax%ED%86%B5%EC%8B%A0

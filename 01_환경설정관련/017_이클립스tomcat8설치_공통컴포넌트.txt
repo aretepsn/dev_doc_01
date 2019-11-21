@@ -1,0 +1,36 @@
+- 작성일 : 2017.07.24
+
+- tomcat8설치
+  - 아래 사이트에서 install 버전 '32-bit/64-bit Windows Service Installer (pgp, md5, sha1)'를 다운로드 받아 설치한다.
+    - https://tomcat.apache.org/download-80.cgi#8.0.45
+
+  - 이클립스 'window>preferences>java>Build path>Classpath Variables'에 'JRE_LIB'위치 확인
+    - 톰캣 설치 위치(C:\Tomcat 8.0\lib)에서 'el-api','jsp-api','servlet-api'를 복사한다.
+    - 이클립스에서 확인한 D:\JAVA\jdk1.8.0_131\jre\lib\ext에 붙여넣는다.
+    - 이클립스를 restart한다.
+    - server에서 new를 선택한다음 tomcat8를 설치할수 있다.
+
+- 전자정부프레임워크 공통컴퍼넌트 설치
+  - egovframe.go.kr사이트에서 아래의 파일을 다운로드 한다.
+    - '	egovframework-all-in-one_v3.6.0.zip'
+
+
+  - 방법1. workspace위치에 압축을 푼다. [30종 공통컴포넌트]
+  - file>import>Maven -> Existing Maven Project'를 선택한뒤 '...all-in-one'위치를 선택하여 설치한다.
+  - globals.properties파일을 열어 db정보를 수정한다.
+    - db스크립트는 '...all-in-one\script\...'파일에서 디비스크립트를 수행한다.
+  - run as>maven install를 수행한다.
+  - tomca8과 연결하여 start한다.
+
+  - 방법2. 251종 공통컴포넌트
+    - 빈프로젝트를 생성한다 [ egovframe web project ]
+    - 추가로 공통컴포넌트를 설치한다. [ new>egovframe common component ] 
+    - 화면은 정상 가동됨.
+    - 디비 스크립트가 제대로 이루어지지 않아서 제대로된 화면을 볼수 없음 [작성일 기준]
+    - http://www.egovframe.go.kr/uss/olh/qna/QnaInqireCoUpdt.do?menu=5&amp;submenu=4
+    - http://www.egovframe.go.kr/wiki/doku.php?id=egovframework:dev3.6:imp:editor:common_component
+
+-  ref
+  - http://knocktonote.tistory.com/42
+  - http://pentode.tistory.com/120
+  - http://www.egovframe.go.kr/wiki/doku.php?id=egovframework:dev3.6:imp:editor:common_component

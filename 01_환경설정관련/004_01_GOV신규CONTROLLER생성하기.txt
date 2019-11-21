@@ -1,0 +1,16 @@
+- 작성일 : 20170927
+
+-  dispatcher-servlet.xml 수정
+    <context:component-scan base-package="egovframework, abc">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+    </context:component-scan>
+
+- context-common.xml 수정
+    <context:component-scan base-package="egovframework, abc">
+       <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>
+
+- ref
+  - 블로거 : http://withpie.tistory.com/7

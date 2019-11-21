@@ -1,0 +1,69 @@
+- 작성일 : 2017.08.01
+
+- 로컬에서 원격으로 배포하기
+
+- 톰캣서버(ver : apache-tomcat-7.0.79) 를 설치한다.(테스를 위한 서버)
+  - conf/tomcat-users.xml 수정
+	<role rolename="manager-gui"/>
+	<role rolename="manager-script"/>
+	<role rolename="manager-jmx"/>
+	<role rolename="manager-status"/>
+	 
+	<user username="tomcat" password="tomcat"  roles="manager-gui,manager-script,manager-jmx,manager-status" />
+  - http://localhost:8080/manager로 접속하여 로그인창이 나오면 설정이 제대로 된것이다.
+
+
+- 이클립스 
+  - 전자정부프레임워크 기본샘플을 만든다.(project name : maven)
+    - new project > eGovFrame Web Project > Genrate Example
+    - 정상적으로 화면이 작동되는지 확인한다.
+  - pom.xml파일을 아래와 같이 추가한다.
+        <pluginManagement>
+            <plugins>
+	<!--톰캣 자동배포-->
+	<plugin>
+	    <groupId>org.apache.tomcat.maven</groupId>
+	    <artifactId>tomcat7-maven-plugin</artifactId>
+	    <version>2.1</version>
+	    <configuration>
+		<url>http://127.0.0.1:8080/manager/text</url>
+		<path>/maven2</path>
+		<username>tomcat</username>
+		<password>tomcat</password>
+		<charset>UTF-8</charset>
+		<uriEncoding>UTF-8</uriEncoding>
+	    </configuration>
+	</plugin>
+
+
+- 수행방법
+  - 참조 : 01_run.png
+
+- 테스트 환경
+  - tomcat7.0.79
+  - java : 1.8.0_131_b11
+  - os : window10
+
+- 테스트 환경 (서버에 manager/html이 원활하게 접속해야 테스트를 할수 있음)
+  - maven수행시 tomcat7과 동일하게 수행하면 된다.( tomcat7:deploy)
+  - tomcat8.5.16
+  - java : 1.8.0_131_b11
+  - os : window10
+
+
+- maven cmd에서 수행하기
+  - 아래사이트에서 다운로드 후 압축을 해제한다.(ex. d:\maven)
+    - 참조 : http://maven.apache.org/download.cgi
+  - 환경변수를 잡아준다.
+    - 참조 : 02_maven_cmd환경변수
+  - 아래와 같이 수행하여 maven이 수행하는지 확인
+    - c:\>mvn 
+  - war 배포할 위치로 이동하여 tomcat7:deploy를 수행하면 이클립스의 console로그와 동일하게 출력되는 것을 확인할 수 있다.
+    - d:\workspace\aabbcc>mvn tomcat7:deploy
+
+- ref
+  - 메이븐 배포관련
+    - 블로거 : http://changjaeso.com/?p=17400
+    - 블로거 : http://stove99.tistory.com/71
+    - https://www.mkyong.com/maven/how-to-deploy-maven-based-war-file-to-tomcat/
+  - 메이븐이란 : https://www.slideshare.net/sunnykwak90/ss-43767933

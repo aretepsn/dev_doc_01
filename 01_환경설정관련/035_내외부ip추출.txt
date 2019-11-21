@@ -1,0 +1,52 @@
+작성일 : 20181108
+
+
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.util.Enumeration;
+
+public class GetIp {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		System.out.println("-->"+getCurrentEnvironmentNetworkIp());
+	}
+
+	public static String getCurrentEnvironmentNetworkIp(){
+		Enumeration netInterfaces = null;
+		try {
+			netInterfaces = NetworkInterface.getNetworkInterfaces();
+		} catch (SocketException e) {
+			return getLocalIp();
+		}
+
+		while (netInterfaces.hasMoreElements()) {
+			NetworkInterface ni = (NetworkInterface)netInterfaces.nextElement();
+			Enumeration address = ni.getInetAddresses();
+			if (address == null) {
+				return getLocalIp();
+			}
+			while (address.hasMoreElements()) {
+				InetAddress addr = (InetAddress)address.nextElement();
+				if (!addr.isLoopbackAddress() && !addr.isSiteLocalAddress() && !addr.isAnyLocalAddress() ) {
+					String ip = addr.getHostAddress();
+					if( ip.indexOf(".") != -1 && ip.indexOf(":") == -1 ){
+						return ip;
+					}
+				}
+			}
+		}
+		return getLocalIp();
+	}
+	public static String getLocalIp(){
+		try {
+			return InetAddress.getLocalHost().getHostAddress();
+		} catch (UnknownHostException e) {
+			return null;
+		}
+	}
+
+//ref: http://blog.naver.com/PostView.nhn?blogId=knight50&logNo=80160605937
+}

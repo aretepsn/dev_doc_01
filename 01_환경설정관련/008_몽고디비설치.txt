@@ -1,0 +1,73 @@
+>use admin
+>db.createUser({user:"dbadmin",pwd:"1111",roles:["dbAdminAnyDatabase"]})
+몽고디비 설치
+- 아래의 사이트에서 몽고디비를 다운로드 받은후 설치함.
+  - https://www.mongodb.com/download-center?jmp=homepage#community
+  - 설치 참고
+
+- 몽고디비 수행/테스트
+  - 몽고디비 서버 수행하기
+    - C:\Program Files\MongoDB\Server\3.2\bin>mongod --dbpath "c:\data\db"
+      - C:\data\db : 데이터베이스 디렉토리
+  - 새로운 cmd창을 열어 접속한다.
+    - C:\Program Files\MongoDB\Server\3.2\bin>mongo
+
+- 데이타베이스 생성하고 쿼리수행
+  - 데이타베이스 생성/이동
+    >use test
+
+  - people테이블 생성
+    >db.people.insert( [
+    { name: "Abet", age: 19 },
+    { name: "Betty", age: 20 },
+    { name: "Charlie", age: 23, skills: [ "mongodb", "nodejs"] },
+    { name: "David", age: 23, score: 20 }
+    ])
+
+  - 테이블 조회
+  >db.people.find()
+
+- 몽고디비툴 설치
+  - 기본설치하면 된다.
+    - 참조 : https://robomongo.org/
+
+- 몽고디비는 기본적으로 로그인정보없이 접속한다.
+  로그인 접속방식으로 변경하기(Robo 3T 1.1.1 계정생성시 에러가 있어 제대로 생성되지 않는듯 하다.)
+  - 몽고디비를 가동
+  - 해당 디비로 이동하여 사용자 추가한다.
+    >show dbs ->데이타베이스목록
+    >use test   ->디비이동
+    >db          ->현재접속중인 디비
+    >db.createUser(
+      {
+        user: "test",
+        pwd: "1111",
+        roles: [
+           { role: "readWrite", db: "test" }
+        ]
+      }
+    )
+  - 몽고디비를 중지하고 아래와 같이 서버인증모드로 다시 가동한다.
+    - C:\Program Files\MongoDB\Server\3.2\bin>mongod --dbpath "c:\data\db" --auth
+  - 다른창에서 몽고디비 접속
+    - mongo -u "test" -p "1111"
+    >db.pepole.find()  ->를 수행하면 제대로 데이타가 나온다.
+    - 계정을 생성하고 Robo로 접속하면 가능하다.
+
+- ref
+  - 몽고디비 개념 설명 : https://velopert.com/mongodb-tutorial-list
+  - 몽고디비 공식사이트 : https://www.mongodb.com/download-center?jmp=homepage#community
+
+>use test
+>db.createUser(
+  {
+    user: "test",
+    pwd: "1111",
+    roles: [
+       { role: "readWrite", db: "test" }
+    ]
+  }
+)
+ 몽고디비 다시 시작
+
+https://docs.mongodb.com/manual/tutorial/create-users/

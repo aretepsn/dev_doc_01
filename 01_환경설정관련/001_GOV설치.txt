@@ -1,0 +1,10 @@
+- 작성일 : 20170609
+
+- 전자정부 프레임워크를 다운로드 받아 설치한다.
+  - 버전 : eGovFrameDev-3.6.0-64bit
+  - URL : http://www.egovframe.go.kr/
+
+- 기본템블릿으로 웹서비스를 확인한다.
+  - DB 연결까지... (로컬에 MYSQL을 설치한다)
+
+- 참조 : http://www.egovframe.go.kr/wiki/doku.php?id=egovframework:dev3.5:clntinstall
