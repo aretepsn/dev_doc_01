@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<script language="javascript">
+		function convertToCSV(objArray) {
+			var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+			var str = '';
+
+			for (var i = 0; i < array.length; i++) {
+				var line = '';
+				for (var index in array[i]) {
+					if (line != '') line += ','
+					line += array[i][index];
+				}
+				str += line + '\r\n';
+			}
+			return str;
+		}
+
+		function exportCSVFile(headers, items, fileTitle) {
+			if (headers) {
+				items.unshift(headers);
+			}
+
+			var jsonObject = JSON.stringify(items);
+			var csv = this.convertToCSV(jsonObject);
+			var exportedFilenmae = fileTitle + '.csv' || 'export.csv';
+
+			var blob = new Blob(["\ufeff"+csv], { type: 'text/csv;charset=UTF-8;' });
+			if (navigator.msSaveBlob) { // IE 10+
+				navigator.msSaveBlob(blob, exportedFilenmae);
+			} else {
+				var link = document.createElement("a");
+				if (link.download !== undefined) { // feature detection
+					// Browsers that support HTML5 download attribute
+					var url = URL.createObjectURL(blob);
+					link.setAttribute("href", url);
+					link.setAttribute("download", exportedFilenmae);
+					link.style.visibility = 'hidden';
+					document.body.appendChild(link);
+					link.click();
+					document.body.removeChild(link);
+				}
+			}
+		}
+
+	function download(){
+		var headers = {
+			model: '폰종류'.replace(/,/g, ''), // remove commas to avoid errors
+			chargers: "Chargers",
+			cases: "Cases",
+			earphones: "Earphones123"
+		};
+
+		itemsNotFormatted = [
+			{
+				model: '삼성 S7',
+				chargers: '55',
+				cases: '56',
+				earphones: '57',
+				scratched: '2'
+			},
+			{
+				model: '픽셀 XL',
+				chargers: '77',
+				cases: '78',
+				earphones: '79',
+				scratched: '4'
+			},
+			{
+				model: 'iPhone 7',
+				chargers: '88',
+				cases: '89',
+				earphones: '90',
+				scratched: '6'
+			}
+		];
+
+		var itemsFormatted = [];
+
+		// format the data
+		itemsNotFormatted.forEach((item) => {
+			itemsFormatted.push({
+				model: item.model.replace(/,/g, ''),
+				chargers: item.chargers,
+				cases: item.cases,
+				earphones: item.earphones
+			});
+		});
+
+		var fileTitle = '테스트';
+
+		exportCSVFile(headers, itemsFormatted, fileTitle);
+	}
+	</script>
+</head>
+
+<body>
+<div class="download-wrapper" onClick="download()">
+  <p><i class="material-icons">file_download (click)</i></p>
+</div>
+</body>
+
+</html>
