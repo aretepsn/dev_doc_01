@@ -1,0 +1,14 @@
+CREATE DEFINER=`root`@`localhost` FUNCTION `fn_getDuration`( I_TIME VARCHAR(6) ) RETURNS int(5)
+BEGIN
+	DECLARE O_DURATION INT(5);
+    SELECT CASE
+				WHEN a.duration <= 86400 THEN a.duration
+				ELSE 0
+			END INTO O_DURATION
+	FROM (
+			SELECT SUBSTR(I_TIME,1,2)*60*60
+				 + SUBSTR(I_TIME,3,2)*60
+				 + SUBSTR(I_TIME,5,2) AS duration		 
+		  ) a;
+RETURN O_DURATION;
+END

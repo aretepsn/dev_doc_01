@@ -1,0 +1,30 @@
+CREATE DEFINER=`root`@`localhost` FUNCTION `fn_getTime`(I_DURATION INT(5) ) RETURNS varchar(8) CHARSET utf8
+BEGIN
+DECLARE _hh int DEFAULT 0;
+DECLARE _mm int DEFAULT 0;
+DECLARE _ss int DEFAULT 0;
+DECLARE O_TIME VARCHAR(8);
+
+	/* 유효성 체크*/
+	if( I_DURATION > 86400 ) THEN
+		SET O_TIME = '00:00:00';
+		RETURN O_TIME;
+	END IF;
+    
+    /* 추출 : 시 */
+    IF( I_DURATION >= (60*60))  THEN
+        SET _hh = FLOOR( I_DURATION/ (60*60) );
+        SET I_DURATION = I_DURATION - FLOOR(I_DURATION/ (60*60) )*(60*60);
+	END IF;
+    
+    /* 추출 : 분 */
+    IF( I_DURATION >= (60))  THEN
+        SET _mm = FLOOR( I_DURATION/ (60) );
+        SET I_DURATION = I_DURATION - FLOOR(I_DURATION/ (60) )*(60);
+	END IF;
+    
+    /* 추출 : 분 */
+		SET _ss = I_DURATION;
+    SET O_TIME = CONCAT(LPAD(_hh,2,'0'),':',LPAD(_mm,2,'0'),':',LPAD(_ss,2,'0'));
+RETURN O_TIME;
+END
